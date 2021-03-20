@@ -1,0 +1,19 @@
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    a{
+        text-decoration: none;
+    }
+    nav{
+        ul{
+            margin: 0;
+            display: flex;
+            list-style-type: none;
+            li{
+                margin-left: .5rem;
+            }
+        }
+    }
+}
