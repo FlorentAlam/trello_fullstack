@@ -1,6 +1,8 @@
 .dashboard{
+    padding: 4rem 1rem;
+    box-sizing: border-box;
     &__button{
-        background: rgba(0, 0, 0, .05);
+        background: #eee;
         padding: .5rem 1rem;
         margin-right: .5rem;
         margin-bottom: .5rem;

@@ -2,3 +2,4 @@
 /trello-api/node_modules
 .env
 .next
+secret.js

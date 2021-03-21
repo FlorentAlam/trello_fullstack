@@ -1,0 +1,23 @@
+.registration-page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    form{
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        max-width: 300px;
+        label, input{
+            margin-bottom: .5rem;
+        }
+        input{
+            padding: .5rem;
+        }
+        button{
+            align-self: center;
+            margin: .5rem 0;
+            padding: .5rem 1rem;
+        }
+    }
+}

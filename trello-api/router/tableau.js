@@ -3,13 +3,18 @@ const router = express.Router();
 
 const knex = require('../database');
 
+const checkSignIn = (req, res, next) => {
+    console.log(req.session);
+    if(req.session.user_id) next();
+}
+
 // Retourne la liste des tableau de l'utilisateur ID
-router.get('/', async (req, res) => {
+router.get('/', checkSignIn, async (req, res) => {
     const tableaux = await knex.select().table('tableaux');
     res.status(200).send(tableaux);
 });
 
-router.post('/new', async (req, res) => {
+router.post('/new', checkSignIn, async (req, res) => {
     const { body } = req;
     try{
         let response = await knex('tableaux').insert({...body}, 'id');

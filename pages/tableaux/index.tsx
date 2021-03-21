@@ -1,8 +1,10 @@
 import axios from "axios";
+import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useContext, useEffect, useState } from "react";
 import AddItem from "../../components/AddItem";
 import { CREATE_TABLEAU_URL, GET_TABLEAUX_URL } from "../../utils/api_endpoints";
+import { MainContext } from "../_app";
 
 interface ITableau{
     id: number,
@@ -12,12 +14,23 @@ interface ITableau{
 const Dashboard: FunctionComponent = () => {
     const [tableaux, setTableaux] = useState<ITableau[]>([]);
 
+    const { ctx } = useContext(MainContext);
+    const router = useRouter();
+
     useEffect(() => {
-        fetchTableaux();
+        document.title = "Tableaux - trello.";
+        if(ctx.user.isLogged){
+            fetchTableaux();
+        } else {
+            router.push('/connexion');
+        }
     }, []);
 
     const fetchTableaux = async () => {
-        const response = await axios.get(GET_TABLEAUX_URL);
+        const response = await axios.get(GET_TABLEAUX_URL, {withCredentials: true});
+        console.log("poeut");
+
+        console.log(response);
         const data: ITableau[] = response.data;
         
         setTableaux(data);
@@ -45,7 +58,7 @@ const Dashboard: FunctionComponent = () => {
     };
 
     return (
-        <div className="dashboard">
+        <div id="page" className="dashboard">
             { tableaux.map((tableau) => (
                 <button className="dashboard__button" key={tableau.id}><Link href={`/tableaux/${tableau.id}`}>{tableau.name}</Link></button>
             ))}

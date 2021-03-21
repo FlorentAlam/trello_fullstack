@@ -1,9 +1,7 @@
-const { urlencoded } = require('body-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
 const session = require('express-session');
-const passport = require('./passport/setup');
 const app = express();
 
 
@@ -11,20 +9,22 @@ const carteRouter = require('./router/carte');
 const listeRouter = require('./router/liste');
 const tableauRouter = require('./router/tableau');
 const userRouter = require('./router/user');
+const secret = require('./secret');
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: secret.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    secure: false
 }));
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use('/api/tableaux', tableauRouter);
 app.use('/api/listes', listeRouter);

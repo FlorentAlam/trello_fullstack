@@ -14,3 +14,6 @@ export const CREATE_CARTE_URL = `${ BASE_URL }/cartes/new`;
 export const GET_CARTES_URL = (liste_id: string | number) => `${ BASE_URL }/cartes/${ liste_id }`;
 export const UPDATE_CARTE_URL = (carte_id: string | number) => `${ BASE_URL }/cartes/update/${ carte_id }`;
 export const DELETE_CARTE_URL = (carte_id: string | number) => `${ BASE_URL }/cartes/delete/${ carte_id }`;
+
+export const USER_INSCRIPTION = `${ BASE_URL }/users/inscription`;
+export const USER_CONNEXION = `${ BASE_URL }/users/connexion`;
