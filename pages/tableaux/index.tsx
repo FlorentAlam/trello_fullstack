@@ -14,7 +14,7 @@ interface ITableau{
 const Dashboard: FunctionComponent = () => {
     const [tableaux, setTableaux] = useState<ITableau[]>([]);
 
-    const { ctx } = useContext(MainContext);
+    const { ctx, toggleContext } = useContext(MainContext);
     const router = useRouter();
 
     useEffect(() => {
@@ -27,22 +27,28 @@ const Dashboard: FunctionComponent = () => {
     }, []);
 
     const fetchTableaux = async () => {
-        const response = await axios.get(GET_TABLEAUX_URL, {withCredentials: true});
-        console.log("poeut");
-
-        console.log(response);
-        const data: ITableau[] = response.data;
-        
-        setTableaux(data);
+        try{
+            const response = await axios.get(GET_TABLEAUX_URL, {withCredentials: true});
+            const data: ITableau[] = response.data;
+            setTableaux(data);
+        } catch(e){
+            toggleContext({...ctx, flash: { isError: true, message: "Une erreur s'est produite lors de la récupération des tableaux."}});
+        }
     };
 
     const onAddTableau = async (tableauName: string) => {
-        const result = await apiAddTableau(tableauName);
-        if(result){
-            const newTab = [...tableaux];
-            newTab.push({id: result[0], name: tableauName});
-            setTableaux(newTab);
+        try{
+            const result = await apiAddTableau(tableauName);
+            if(result){
+                toggleContext({...ctx, flash: { isError: false, message: "Tableau créé avec succés !"}});
+                const newTab = [...tableaux];
+                newTab.push({id: result[0], name: tableauName});
+                setTableaux(newTab);
+            }
+        } catch(e){
+            toggleContext({...ctx, flash: { isError: true, message: "Une erreur s'est produite lors de la création du tableau."}});
         }
+        
     }
 
     const apiAddTableau = async(tableauName: string) => {

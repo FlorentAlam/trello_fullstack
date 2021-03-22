@@ -29,10 +29,10 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/connexion.js"
     ],
-    "/tableaux": [
+    "/tableaux/[id]": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/tableaux.js"
+      "static/chunks/pages/tableaux/[id].js"
     ]
   },
   "ampFirstPages": []

@@ -22,7 +22,7 @@ const ListeTitle: FunctionComponent<IListeTitleProps> = ({title, liste_id}) => {
         let res = await axios.put(UPDATE_LISTE_URL, {
             id: liste_id,
             name: listeTitle
-        });
+        }, { withCredentials: true});
     }
 
     return (

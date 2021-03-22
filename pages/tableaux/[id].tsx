@@ -24,7 +24,7 @@ const Tableau = () => {
     const fetchListes = async () => {
         const tableau_id: string = router.query.id as string; 
 
-        const response = await axios.get(GET_LISTES_URL(tableau_id));
+        const response = await axios.get(GET_LISTES_URL(tableau_id), { withCredentials: true});
         const data: IListe[] = response.data;
         setListes(data);
     }
@@ -44,7 +44,7 @@ const Tableau = () => {
             const result = await axios.post(CREATE_LISTE_URL, {
                 name: listeName,
                 tableau_id
-            });
+            }, { withCredentials: true });
             if(result.status === 400) throw new Error('Erreur lors de la création de la liste.');
             return result.data;
         } catch(e){
@@ -53,7 +53,7 @@ const Tableau = () => {
     };
 
     return (
-        <div className="tableau">
+        <div id="page" className="tableau">
             { listes.map((liste, index) => (
                 <Liste key={liste.id} liste_id={liste.id} listeName={liste.name} />
             ))}

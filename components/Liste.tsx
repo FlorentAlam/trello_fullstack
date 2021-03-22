@@ -24,7 +24,7 @@ const Liste: FunctionComponent<IListeProps> = ({ listeName, liste_id }) => {
     }, [])
 
     const fetchCartes = async () => {
-        const response = await axios.get(GET_CARTES_URL(liste_id));
+        const response = await axios.get(GET_CARTES_URL(liste_id), { withCredentials: true});
         const data: ICarte[] = response.data;
         setCartes(data);
     }
@@ -43,7 +43,7 @@ const Liste: FunctionComponent<IListeProps> = ({ listeName, liste_id }) => {
             const result = await axios.post(CREATE_CARTE_URL, {
                 name: carteName,
                 liste_id
-            });
+            }, { withCredentials: true });
             if(result.status === 400) throw new Error('Erreur lors de la création de la carte.');
             return result.data;
         } catch(e){
