@@ -23,7 +23,7 @@ const Connexion = () => {
     const onSubmit = async () => {
         try{
             if(!checkLength(password, 6)) throw new Error("Votre mot de passe doit contenir au moins 6 caractères.");
-            if(!checkLength(email, 1)) throw new Error("Veuillez fournir une adresse email correcte.");
+            if(!checkLength(email, 4)) throw new Error("Veuillez fournir une adresse email correcte.");
             let res = await axios.post(USER_CONNEXION, {
                 email, password
             }, {withCredentials: true});

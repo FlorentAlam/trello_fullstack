@@ -14,7 +14,7 @@ const Form: FunctionComponent<IFormProps> = ({buttonName, submitAction, children
     return (
     <form>
         { children }
-        <button type="submit" onClick={ onSubmit }>{ buttonName }</button>
+        <button type="submit" onClick={ onSubmit } role="submit">{ buttonName }</button>
     </form>
 )};
 
