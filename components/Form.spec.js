@@ -8,7 +8,7 @@ const MockedChild = () => {
     return (
         <>
             <label htmlFor="test">Ceci est un test</label>
-            <input type="text" name="test" id="test" value="ok"/>
+            <input type="text" name="test" id="test" value="ok" onChange={() => {}}/>
         </>
     )
 }
