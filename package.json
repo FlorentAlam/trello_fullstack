@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --watch",
     "dev": "concurrently \"next dev\" \"nodemon trello-api/index.js\"",
     "build": "next build",
     "start": "next start"

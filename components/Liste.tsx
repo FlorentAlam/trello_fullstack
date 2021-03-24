@@ -57,7 +57,7 @@ const Liste: FunctionComponent<IListeProps> = ({ listeName, liste_id }) => {
             {cartes.map((carte) => (
                 <Carte key={carte.id} name={carte.name}/>
             ))}
-            <AddItem onSubmit={onAddCarte} buttonName="Ajouter une carte"/>
+            <AddItem onSubmit={onAddCarte} buttonName="Ajouter une carte" placeholder="Nom de la carte"/>
         </div>
     )
 };

@@ -1,12 +1,22 @@
 .liste{
     display: flex;
     flex-direction: column;
-    background: red;
     width: 250px;
     margin-right: 1rem;
     padding: 10px;
     box-sizing: border-box;
+    background: #ccc;
     h1{
         margin: 0;
     }
+    &__title{
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+    
+}
+.add-item{
+    background: blue;
+    text-align: left;
+    align-self: flex-start;
 }

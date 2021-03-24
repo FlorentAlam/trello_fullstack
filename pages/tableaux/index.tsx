@@ -55,7 +55,7 @@ const Dashboard: FunctionComponent = () => {
         try{
             const result = await axios.post(CREATE_TABLEAU_URL, {
                 name: tableauName
-            });
+            }, { withCredentials: true});
             if(result.status === 400) throw new Error('Erreur lors de la création du tableau.');
             return result.data;
         } catch(e){
@@ -68,7 +68,7 @@ const Dashboard: FunctionComponent = () => {
             { tableaux.map((tableau) => (
                 <button className="dashboard__button" key={tableau.id}><Link href={`/tableaux/${tableau.id}`}>{tableau.name}</Link></button>
             ))}
-            <AddItem onSubmit={onAddTableau} buttonName="Ajouter un tableau"/>
+            <AddItem onSubmit={onAddTableau} buttonName="Ajouter un tableau" placeholder="Nom du tableau"/>
         </div>
     )
 };

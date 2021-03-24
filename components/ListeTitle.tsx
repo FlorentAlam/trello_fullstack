@@ -44,7 +44,7 @@ const ListeTitle: FunctionComponent<IListeTitleProps> = ({title, liste_id}) => {
         }
         {
             !isUpdatingTitle &&
-            <span onClick={() => toggleUpdating(true)}>{ listeTitle }</span>
+            <span className="liste__title" onClick={() => toggleUpdating(true)}>{ listeTitle }</span>
         }
         </>
     )

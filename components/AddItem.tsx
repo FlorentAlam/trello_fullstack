@@ -26,7 +26,7 @@ const AddItem: FunctionComponent<IAddItemProps> = ({ onSubmit, buttonName, place
                 value={itemName} 
                 onKeyPress={(event:KeyboardEvent) => {onKeyPressed(event)}} 
                 onChange={(event:ChangeEvent<HTMLInputElement>) => setItemName(event.target.value)}/>}
-            { !isAddingItem && <button onClick={() => toggleAddItem(!isAddingItem)}>{ buttonName }</button> }
+            { !isAddingItem && <button className="add-item" onClick={() => toggleAddItem(!isAddingItem)}>{ buttonName }</button> }
             
         </>
     )

@@ -57,7 +57,7 @@ const Tableau = () => {
             { listes.map((liste, index) => (
                 <Liste key={liste.id} liste_id={liste.id} listeName={liste.name} />
             ))}
-            <AddItem onSubmit={onAddListe} buttonName="Ajouter une liste"/>
+            <AddItem onSubmit={onAddListe} buttonName="Ajouter une liste" placeholder="Nom de la liste"/>
         </div>
     )
 };
