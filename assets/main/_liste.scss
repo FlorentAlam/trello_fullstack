@@ -16,7 +16,11 @@
     
 }
 .add-item{
-    background: blue;
+    background: none;
+    border: none;
+    padding-left: 3px;
+    font-weight: bold;
+    opacity: .5;
     text-align: left;
     align-self: flex-start;
 }

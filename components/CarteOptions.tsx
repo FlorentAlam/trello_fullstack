@@ -2,43 +2,39 @@ import { FunctionComponent, useState } from "react";
 import AddEtiquette from "./CarteOptions/AddEtiquette";
 import Checklist from "./CarteOptions/Checklist";
 import Description from "./CarteOptions/Description";
-import Etiquettes from "./CarteOptions/Etiquettes";
-
-interface IChecklistItem{
-    isChecked: boolean,
-    name: string
-}
+import Etiquettes, { IEtiquette } from "./CarteOptions/Etiquettes";
 
 interface ICarteOptionsProps{
-    etiquettes: string[],
-    checklist: IChecklistItem[],
-    description: string,
-    couvertureImage: string,
-    name: string
+    carte: {
+        id?: number,
+        name: string,
+        description?: string,
+        etiquettes: IEtiquette[]
+    },
+    onDeleteEtiquette: (carte_id: number, etiquette_id: number) => void
+    onAddEtiquette: (etiquette: IEtiquette) => void
 }
 
-const CarteOptions: FunctionComponent<ICarteOptionsProps> = ({etiquettes, checklist, description, couvertureImage, name}) => {
+const CarteOptions: FunctionComponent<ICarteOptionsProps> = ({ carte, onDeleteEtiquette, onAddEtiquette }) => {
     const [ addEtiquette, toggleAddEtiquette ] = useState(false);
-    
-    const onAddEtiquette = (color: string) => {
-
-    }
 
     return (
-        <div>
-            <div>
-                <h1>{name}</h1>
-                <Description description={description}/>
-                { etiquettes.length && <Etiquettes etiquettes={etiquettes}/>}
-                { checklist.length && <Checklist checklistItems={checklist}/>}
-            </div>
-            <div>
-                <h2>Ajouter à la carte</h2>
-                <ul>
-                    <li onClick={() => { toggleAddEtiquette(!addEtiquette)}}>Etiquettes</li>
-                    { addEtiquette && <AddEtiquette onAdd={onAddEtiquette}/>}
-                    <li>Checklist</li>
-                </ul>
+        <div className="carte-options">
+            <div className="carte-options__content">
+                <div>
+                    <h1>{carte.name}</h1>
+                    <Description description={carte.description}/>
+                    { !!carte.etiquettes.length && <Etiquettes etiquettes={carte.etiquettes} onDeleteEtiquette={(etiquette_id: number) => onDeleteEtiquette(carte.id, etiquette_id)}/>}
+                    {/* { carte.checklist.length && <Checklist checklistItems={carte.checklist}/>} */}
+                </div>
+                <div>
+                    <h2>Ajouter à la carte</h2>
+                    <ul>
+                        <li onClick={() => { toggleAddEtiquette(!addEtiquette)}}>Etiquettes</li>
+                        { addEtiquette && <AddEtiquette carte_id={carte.id} onAdd={onAddEtiquette}/>}
+                        <li>Checklist</li>
+                    </ul>
+                </div>
             </div>
         </div>
     )

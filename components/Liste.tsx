@@ -26,6 +26,7 @@ const Liste: FunctionComponent<IListeProps> = ({ listeName, liste_id }) => {
     const fetchCartes = async () => {
         const response = await axios.get(GET_CARTES_URL(liste_id), { withCredentials: true});
         const data: ICarte[] = response.data;
+        console.log(data);
         setCartes(data);
     }
 
@@ -51,11 +52,37 @@ const Liste: FunctionComponent<IListeProps> = ({ listeName, liste_id }) => {
         }
     };
 
+    const onDeleteEtiquette = (carte_id: number, etiquette_id: number) => {
+        let cartesCopy = [];
+        for(let i = 0; i < cartes.length; i++){
+            if(cartes[i].id === carte_id){
+                let newCarte = {...cartes[i]};
+                newCarte.etiquettes = newCarte.etiquettes.filter(etiquette => {
+                    return etiquette.id !== etiquette_id;
+                });
+                cartesCopy.push(newCarte);
+            } else {
+                cartesCopy.push(cartes[i]);
+            }
+            setCartes(cartesCopy);
+        }
+    }
+
+    const onAddEtiquette = ({carte_id, color}) => {
+        const cartesCopy = [...cartes];
+        for(let i = 0; i < cartes.length; i++){
+            if(cartes[i].id === carte_id){
+                cartesCopy[i].etiquettes.push({carte_id, color, name: ''});
+            }
+        }
+        setCartes(cartesCopy);
+    }
+
     return (
         <div className="liste">
             <ListeTitle title={ listeName } liste_id={ liste_id }/>
             {cartes.map((carte) => (
-                <Carte key={carte.id} name={carte.name}/>
+                <Carte key={carte.id} carte={carte} onDeleteEtiquette={onDeleteEtiquette} onAddEtiquette={onAddEtiquette}/>
             ))}
             <AddItem onSubmit={onAddCarte} buttonName="Ajouter une carte" placeholder="Nom de la carte"/>
         </div>

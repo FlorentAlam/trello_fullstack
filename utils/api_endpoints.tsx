@@ -17,3 +17,11 @@ export const DELETE_CARTE_URL = (carte_id: string | number) => `${ BASE_URL }/ca
 
 export const USER_INSCRIPTION = `${ BASE_URL }/users/inscription`;
 export const USER_CONNEXION = `${ BASE_URL }/users/connexion`;
+
+export const CREATE_ETIQUETTE = `${ BASE_URL }/etiquettes/new`;
+export const UPDATE_ETIQUETTE = (etiquette_id: string | number) => `${ BASE_URL }/etiquettes/update/${ etiquette_id }`;
+export const DELETE_ETIQUETTE = (etiquette_id: string | number) => `${ BASE_URL }/etiquettes/delete/${ etiquette_id }`;
+
+export const CREATE_CHECKLIST = `${ BASE_URL }/checklists/new`;
+export const UPDATE_CHECKLIST = (checklist_id: string | number) => `${ BASE_URL }/checklists/update/${ checklist_id }`;
+export const DELETE_CHECKLIST = (checklist_id: string | number) => `${ BASE_URL }/checklists/delete/${ checklist_id }`;

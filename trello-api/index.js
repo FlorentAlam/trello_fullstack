@@ -9,6 +9,8 @@ const carteRouter = require('./router/carte');
 const listeRouter = require('./router/liste');
 const tableauRouter = require('./router/tableau');
 const userRouter = require('./router/user');
+const etiquetteRouter = require('./router/etiquette');
+const checklistRouter = require('./router/checklist');
 const secret = require('./secret');
 
 app.use(cors({
@@ -30,6 +32,8 @@ app.use('/api/tableaux', tableauRouter);
 app.use('/api/listes', listeRouter);
 app.use('/api/cartes', carteRouter);
 app.use('/api/users', userRouter);
+app.use('/api/etiquettes', etiquetteRouter);
+app.use('/api/checklists', checklistRouter);
 
 app.listen(process.env.PORT || 3300, () => {
     console.log('listening on port : 3000');

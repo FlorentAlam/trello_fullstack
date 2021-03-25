@@ -3,4 +3,52 @@
     padding: 8px;
     margin-bottom: 10px;
     border-radius: 2px;
+    &__etiquettes{
+        margin-bottom: 8px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    &__etiquette{
+        height: 6px;
+        width: 30px;
+        border-radius: 2px;
+        margin-right: 3px;
+    }
+    &-options{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #00000077;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &__content{
+            background: #eee;
+            display: flex;
+        }
+    }
+}
+
+.etiquettes{
+    &__liste{
+        display: flex;
+    }
+    &__etiquette{
+        height: 40px;
+        width: 40px;
+        margin-right: 10px;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:hover .etiquettes__close-button{
+            opacity: .6;
+        }
+    }
+    &__close-button{
+        font-size: 24px;
+        opacity: 0;
+    }
 }
