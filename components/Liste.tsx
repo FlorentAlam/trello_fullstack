@@ -3,6 +3,8 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { CREATE_CARTE_URL, GET_CARTES_URL } from "../utils/api_endpoints";
 import AddItem from "./AddItem";
 import Carte from "./Carte";
+import { IChecklist } from "./CarteOptions/Checklist";
+import { IEtiquette } from "./CarteOptions/Etiquettes";
 import ListeTitle from "./ListeTitle";
 
 interface ICarte{
@@ -68,11 +70,36 @@ const Liste: FunctionComponent<IListeProps> = ({ listeName, liste_id }) => {
         }
     }
 
-    const onAddEtiquette = ({carte_id, color}) => {
+    const onAddEtiquette = ({carte_id, color, id}: IEtiquette) => {
         const cartesCopy = [...cartes];
         for(let i = 0; i < cartes.length; i++){
             if(cartes[i].id === carte_id){
-                cartesCopy[i].etiquettes.push({carte_id, color, name: ''});
+                cartesCopy[i].etiquettes.push({carte_id, color, name: '', id});
+            }
+        }
+        setCartes(cartesCopy);
+    }
+
+    const onAddChecklist = (checklist: IChecklist) => {
+        const cartesCopy = [...cartes];
+        for(let i = 0; i < cartes.length; i++){
+            if(cartes[i].id === checklist.carte_id){
+                cartesCopy[i].checklists.push(checklist);
+            }
+        }
+        setCartes(cartesCopy);
+    }
+
+    const onUpdateChecklist = (checklist: IChecklist) => {
+        const cartesCopy = [...cartes];
+        for(let i = 0; i < cartes.length; i++){
+            if(cartes[i].id === checklist.carte_id){
+                for(let j = 0; j < cartes[i].checklists.length; j++){
+                    if(cartes[i].checklists[j].id === checklist.id){
+                        cartes[i].checklists[j] = checklist;
+                        break;
+                    }
+                }
             }
         }
         setCartes(cartesCopy);
@@ -82,7 +109,7 @@ const Liste: FunctionComponent<IListeProps> = ({ listeName, liste_id }) => {
         <div className="liste">
             <ListeTitle title={ listeName } liste_id={ liste_id }/>
             {cartes.map((carte) => (
-                <Carte key={carte.id} carte={carte} onDeleteEtiquette={onDeleteEtiquette} onAddEtiquette={onAddEtiquette}/>
+                <Carte key={carte.id} carte={carte} onUpdateChecklist={onUpdateChecklist} onDeleteEtiquette={onDeleteEtiquette} onAddEtiquette={onAddEtiquette} onAddChecklist={onAddChecklist}/>
             ))}
             <AddItem onSubmit={onAddCarte} buttonName="Ajouter une carte" placeholder="Nom de la carte"/>
         </div>

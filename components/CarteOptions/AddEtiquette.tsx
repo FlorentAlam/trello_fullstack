@@ -12,13 +12,14 @@ interface IAddEtiquetteProps{
 
 const AddEtiquette: FunctionComponent<IAddEtiquetteProps> = ({ carte_id, onAdd }) => {
     const onAddEtiquette = async (color: string) => {
-        await axios.post(CREATE_ETIQUETTE, {
+        const etiquette:IEtiquette = {
             carte_id,
             name: '',
             color
-        }, { withCredentials: true});
-        console.log(color);
-        onAdd({carte_id, color});
+        }
+
+        let response = await axios.post(CREATE_ETIQUETTE, {...etiquette}, { withCredentials: true});
+        onAdd({...etiquette, id: response.data[0]});
     }
 
     return (
