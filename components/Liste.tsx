@@ -28,7 +28,6 @@ const Liste: FunctionComponent<IListeProps> = ({ listeName, liste_id }) => {
     const fetchCartes = async () => {
         const response = await axios.get(GET_CARTES_URL(liste_id), { withCredentials: true});
         const data: ICarte[] = response.data;
-        console.log(data);
         setCartes(data);
     }
 
@@ -36,7 +35,7 @@ const Liste: FunctionComponent<IListeProps> = ({ listeName, liste_id }) => {
         const result = await apiAddCarte(carteName);
         if(result){
             const newListe = [...cartes];
-            newListe.push({id: result[0], name: carteName});
+            newListe.push({id: result[0], name: carteName, checklists: [], etiquettes: []});
             setCartes(newListe);
         }
     }
