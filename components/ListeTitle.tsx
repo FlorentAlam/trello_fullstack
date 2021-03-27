@@ -1,23 +1,19 @@
 import axios from "axios";
 import { ChangeEvent, FunctionComponent, KeyboardEvent, MouseEvent, useState } from "react";
+import { connect } from "react-redux";
 import { IListe } from "../pages/tableaux/[id]";
+import { updateState } from "../redux/actions";
 import { UPDATE_LISTE_URL } from "../utils/api_endpoints";
 
 interface IListeTitleProps{
     liste: IListe,
-    onMove: (data: {selectedListe: null | number, movement: {x: number, y: number}}) => void
+    updateListeState: (newState: any) => void,
+    timer: number
 }
 
-const ListeTitle: FunctionComponent<IListeTitleProps> = ({liste, onMove}) => {
+const ListeTitle: FunctionComponent<IListeTitleProps> = ({liste, updateListeState, timer}) => {
     const [isUpdatingTitle, toggleUpdating] = useState(false);
     const [listeTitle, setTitle] = useState(liste.name);
-
-    const [ timer, setTimer ] = useState(null);
-    const [ isMouseActive, toggleMouseActive ] = useState(false);
-    const [ initialMousePosition, setMousePosition ] = useState({
-        x: 0,
-        y: 0
-    });
 
     const onValidate = (event: KeyboardEvent) => {
         if(event.key === "Enter"){
@@ -25,53 +21,25 @@ const ListeTitle: FunctionComponent<IListeTitleProps> = ({liste, onMove}) => {
             toggleUpdating(false);
         }
     }
-
     const updateName = async () => {
         let res = await axios.put(UPDATE_LISTE_URL, {
             id: liste.id,
             name: listeTitle
         }, { withCredentials: true});
     }
-
     const onMouseDown = (event: MouseEvent) => {
         event.preventDefault();
-        toggleMouseActive(true);
-        setTimer(new Date().getTime());
-        setMousePosition({x: event.clientX, y: event.clientY});
+        updateListeState({selectedList: liste.id, isMoving: true, startedAt: new Date().getTime(), initMousePosition: event.clientX});
     }
-
     const onMouseUp = () => {
-        toggleMouseActive(false);
+        updateListeState({isMoving: false});
         const newTime = new Date().getTime();
         const elapsedTime = newTime - timer;
         if(elapsedTime < 200){
             toggleUpdating(true);
         } else {
-            onMove({
-                selectedListe: liste.id,
-                movement: {
-                    x: 0,
-                    y: 0
-                }
-            });
+            updateListeState({selectedList: liste.id, translateX: 0});
         }
-    }
-
-    const onMouseMove = (event: MouseEvent) => {
-        event.preventDefault();
-        if(isMouseActive){
-            const newTime = new Date().getTime();
-            const elapsedTime = newTime - timer;
-            if(elapsedTime >= 200){
-                onMove({
-                    selectedListe: liste.id,
-                    movement: {
-                        x: event.clientX - initialMousePosition.x,
-                        y: event.clientY - initialMousePosition.y
-                    }
-                });
-            }
-        }   
     }
 
     return (
@@ -85,7 +53,6 @@ const ListeTitle: FunctionComponent<IListeTitleProps> = ({liste, onMove}) => {
             !isUpdatingTitle &&
             <div 
                 className="liste__title" 
-                onMouseMove={onMouseMove} 
                 onMouseUp={onMouseUp} 
                 onMouseDown={onMouseDown}
             >{ listeTitle }</div>
@@ -94,4 +61,12 @@ const ListeTitle: FunctionComponent<IListeTitleProps> = ({liste, onMove}) => {
     )
 };
 
-export default ListeTitle;
+const mapStateToProps = (state) => ({ 
+    timer: state.startedAt
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    updateListeState: (newState: any) => dispatch(updateState(newState))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListeTitle);

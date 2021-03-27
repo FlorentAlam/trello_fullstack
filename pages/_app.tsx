@@ -5,6 +5,8 @@ import Header from '../components/Header';
 
 import '../assets/style.scss';
 import Flash from '../components/Flash';
+import { Provider } from 'react-redux';
+import store from '../redux/store';
 
 export const MainContext = createContext(null);
 
@@ -29,12 +31,11 @@ const MyApp: FunctionComponent<AppProps> = ({ Component, pageProps }) => {
 
     return (
       <MainContext.Provider value={{ ctx, toggleContext, updateCtx }}>
-
-        <>
+        <Provider store={store}>
           <Flash/>
           <Header/>
           <Component {...pageProps} />
-        </>
+        </Provider>
       </MainContext.Provider>
     ) 
   }  

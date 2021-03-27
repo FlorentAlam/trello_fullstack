@@ -1,5 +1,6 @@
 import axios from "axios";
 import { FunctionComponent, useEffect, useState } from "react";
+import { connect } from "react-redux";
 import { IListe } from "../pages/tableaux/[id]";
 import { CREATE_CARTE_URL, GET_CARTES_URL } from "../utils/api_endpoints";
 import AddItem from "./AddItem";
@@ -14,19 +15,14 @@ interface ICarte{
 }
 
 interface IListeProps{
-    liste: IListe
+    liste: IListe,
+    selectedListe: number,
+    translation: number
 }
 
-const Liste: FunctionComponent<IListeProps> = ({ liste }) => {
-
+const Liste: FunctionComponent<IListeProps> = ({ liste, selectedListe, translation }) => {
     const [cartes, setCartes] = useState([]);
-    const [ listMovement, setListMovement ] = useState({
-        selectedListe: null,
-        movement: {
-            x: 0,
-            y: 0
-        }
-    })
+
     useEffect(() => {
         fetchCartes();
     }, [])
@@ -97,13 +93,12 @@ const Liste: FunctionComponent<IListeProps> = ({ liste }) => {
                 }
             }
         }
-        console.log(cartesCopy);
         setCartes(cartesCopy);
     }
 
     return (
-        <div className="liste"  style={{zIndex: (liste.id === listMovement.selectedListe ? 4 : 1) , transform: (liste.id === listMovement.selectedListe ? `translateX(${listMovement.movement.x}px) translateY(${listMovement.movement.y}px)` : '')}}>
-            <ListeTitle liste={liste} onMove={(data) => setListMovement({...data})}/>
+        <div className="liste"  style={{zIndex: (liste.id === selectedListe ? 4 : 1) , transform: (liste.id === selectedListe ? `translateX(${translation}px)` : '')}}>
+            <ListeTitle liste={liste}/>
             {cartes.map((carte) => (
                 <Carte key={carte.id} carte={carte} onUpdateChecklist={onUpdateChecklist} onDeleteEtiquette={onDeleteEtiquette} onAddItem={onAddItem}/>
             ))}
@@ -112,4 +107,9 @@ const Liste: FunctionComponent<IListeProps> = ({ liste }) => {
     )
 };
 
-export default Liste;
+const mapStateToProps = (state) => ({
+    selectedListe: state.selectedList,
+    translation: state.translationX
+})
+
+export default connect(mapStateToProps)(Liste);
