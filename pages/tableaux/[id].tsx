@@ -64,7 +64,7 @@ const Tableau = ({isMoving, timer, initialMousePosition, updateListeState, selec
         const newListes = [...listes];
         for(let i = 0; i < newListes.length; i++){
             if(newListes[i].id == liste_id) newListes[i].ordre = currentPosition;
-            else if(newListes[i].ordre <= currentPosition) newListes[i].ordre + value;
+            else if(newListes[i].ordre <= currentPosition) newListes[i].ordre += value;
         }
         setListes(newListes);
     }
@@ -82,7 +82,7 @@ const Tableau = ({isMoving, timer, initialMousePosition, updateListeState, selec
                     if(listes[i].id == selectedList){
                         if(currentPosition > listes[i].ordre){
                             updateOrdre(listes[i].id, -1, currentPosition);
-                            updateListeState({isMoving: false, translateX: 0});
+                            updateListeState({isMoving: false, translationX: 0});
                         }
                     }
                 }

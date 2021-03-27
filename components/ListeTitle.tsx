@@ -38,7 +38,7 @@ const ListeTitle: FunctionComponent<IListeTitleProps> = ({liste, updateListeStat
         if(elapsedTime < 200){
             toggleUpdating(true);
         } else {
-            updateListeState({selectedList: liste.id, translateX: 0});
+            updateListeState({selectedList: liste.id, translationX: 0});
         }
     }
 

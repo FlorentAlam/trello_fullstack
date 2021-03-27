@@ -97,7 +97,7 @@ const Liste: FunctionComponent<IListeProps> = ({ liste, selectedListe, translati
     }
 
     return (
-        <div className="liste"  style={{zIndex: (liste.id === selectedListe ? 4 : 1) , transform: (liste.id === selectedListe ? `translateX(${translation}px)` : '')}}>
+        <div className="liste" data-order={liste.ordre}  style={{zIndex: (liste.id === selectedListe ? 4 : 1) , transform: (liste.id === selectedListe ? `translateX(${translation}px)` : '')}}>
             <ListeTitle liste={liste}/>
             {cartes.map((carte) => (
                 <Carte key={carte.id} carte={carte} onUpdateChecklist={onUpdateChecklist} onDeleteEtiquette={onDeleteEtiquette} onAddItem={onAddItem}/>
