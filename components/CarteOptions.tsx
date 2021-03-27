@@ -15,12 +15,11 @@ interface ICarteOptionsProps{
         checklists: IChecklist[]
     },
     onDeleteEtiquette: (carte_id: number, etiquette_id: number) => void
-    onAddEtiquette: (etiquette: IEtiquette) => void,
-    onAddChecklist: (checklist: IChecklist) => void,
-    onUpdateChecklist: (checklist: IChecklist) => void
+    onUpdateChecklist: (checklist: IChecklist) => void,
+    onAddItem: (item: IEtiquette | IChecklist, name: string) => void
 }
 
-const CarteOptions: FunctionComponent<ICarteOptionsProps> = ({ carte, onDeleteEtiquette, onAddEtiquette, onAddChecklist, onUpdateChecklist }) => {
+const CarteOptions: FunctionComponent<ICarteOptionsProps> = ({ carte, onAddItem, onDeleteEtiquette, onUpdateChecklist }) => {
     const [ addEtiquette, toggleAddEtiquette ] = useState(false);
     const [ addChecklist, toggleAddChecklist ] = useState(false);
 
@@ -37,9 +36,9 @@ const CarteOptions: FunctionComponent<ICarteOptionsProps> = ({ carte, onDeleteEt
                     <h2 className="carte-options__right__carte-name">Ajouter à la carte</h2>
                     <ul>
                         <li onClick={() => { toggleAddEtiquette(!addEtiquette)}} className="carte-options__right__item"><FaRegBookmark/>Etiquettes</li>
-                        { addEtiquette && <AddEtiquette carte_id={carte.id} onAdd={onAddEtiquette} onClose={() => toggleAddEtiquette(false)}/>}
+                        { addEtiquette && <AddEtiquette carte_id={carte.id} onAdd={(etiquette: IEtiquette) => onAddItem(etiquette, "etiquettes")} onClose={() => toggleAddEtiquette(false)}/>}
                         <li onClick={() => { toggleAddChecklist(!addChecklist)}} className="carte-options__right__item"><FaRegCheckSquare/>Checklist</li>
-                        { addChecklist && <AddChecklist carte_id={carte.id} onAdd={onAddChecklist} onClose={() => toggleAddChecklist(false)}/>}
+                        { addChecklist && <AddChecklist carte_id={carte.id} onAdd={(checklist: IChecklist) => onAddItem(checklist, "checklists")} onClose={() => toggleAddChecklist(false)}/>}
                     </ul>
                 </div>
             </div>

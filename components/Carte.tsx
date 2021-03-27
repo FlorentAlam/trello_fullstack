@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CarteOptions from "./CarteOptions";
 
-const Carte = ({carte, onDeleteEtiquette, onAddEtiquette, onAddChecklist, onUpdateChecklist}) => {
+const Carte = ({carte, onDeleteEtiquette, onUpdateChecklist, onAddItem}) => {
     const [ isOptionActive, toggleOptions ] = useState(false);
     return (
         <div className="carte" onClick={() => { toggleOptions(true) }}>
@@ -14,9 +14,13 @@ const Carte = ({carte, onDeleteEtiquette, onAddEtiquette, onAddChecklist, onUpda
             )}
             { carte.name }
             { !!carte.checklists.length && (
-                <div>{carte.checklists.reduce((acc, curr) => { if(curr.isChecked) return acc + 1}, 0) || 0}/{carte.checklists.length}</div>
+                <div>{carte.checklists.reduce((acc, curr) => { 
+                    if(curr.isChecked) {
+                        return acc + 1
+                    } else return acc;
+                }, 0) || 0}/{carte.checklists.length}</div>
             )}
-            { isOptionActive && <CarteOptions onUpdateChecklist={onUpdateChecklist} carte={carte} onDeleteEtiquette={onDeleteEtiquette} onAddEtiquette={onAddEtiquette} onAddChecklist={onAddChecklist}/> }
+            { isOptionActive && <CarteOptions onUpdateChecklist={onUpdateChecklist} carte={carte} onAddItem={onAddItem} onDeleteEtiquette={onDeleteEtiquette}/> }
         </div>
     )
 };

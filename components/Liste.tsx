@@ -69,21 +69,11 @@ const Liste: FunctionComponent<IListeProps> = ({ listeName, liste_id }) => {
         }
     }
 
-    const onAddEtiquette = ({carte_id, color, id}: IEtiquette) => {
+    const onAddItem = (item: IEtiquette | IChecklist, name: string) => {
         const cartesCopy = [...cartes];
         for(let i = 0; i < cartes.length; i++){
-            if(cartes[i].id === carte_id){
-                cartesCopy[i].etiquettes.push({carte_id, color, name: '', id});
-            }
-        }
-        setCartes(cartesCopy);
-    }
-
-    const onAddChecklist = (checklist: IChecklist) => {
-        const cartesCopy = [...cartes];
-        for(let i = 0; i < cartes.length; i++){
-            if(cartes[i].id === checklist.carte_id){
-                cartesCopy[i].checklists.push(checklist);
+            if(cartes[i].id === item.carte_id){
+                cartesCopy[i][name].push(item);
             }
         }
         setCartes(cartesCopy);
@@ -101,6 +91,7 @@ const Liste: FunctionComponent<IListeProps> = ({ listeName, liste_id }) => {
                 }
             }
         }
+        console.log(cartesCopy);
         setCartes(cartesCopy);
     }
 
@@ -108,7 +99,7 @@ const Liste: FunctionComponent<IListeProps> = ({ listeName, liste_id }) => {
         <div className="liste">
             <ListeTitle title={ listeName } liste_id={ liste_id }/>
             {cartes.map((carte) => (
-                <Carte key={carte.id} carte={carte} onUpdateChecklist={onUpdateChecklist} onDeleteEtiquette={onDeleteEtiquette} onAddEtiquette={onAddEtiquette} onAddChecklist={onAddChecklist}/>
+                <Carte key={carte.id} carte={carte} onUpdateChecklist={onUpdateChecklist} onDeleteEtiquette={onDeleteEtiquette} onAddItem={onAddItem}/>
             ))}
             <AddItem onSubmit={onAddCarte} buttonName="Ajouter une carte" placeholder="Nom de la carte"/>
         </div>
