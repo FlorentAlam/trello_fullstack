@@ -17,9 +17,11 @@ const Flash = () => {
     return (
         <div className={"flash " + (ctx.flash.isError ? "flash--error " : "flash--success ") + (isActive ? "flash--active" : "flash--inactive")}>
             <div className="flash-colorBar"></div>
-            { ctx.flash.isError && <FaCheck/>}
-            { !ctx.flash.isError && <FaTimes/>}
-            <p>{ ctx.flash.message }</p>
+            <div className="flash__content">
+                { !ctx.flash.isError && <FaCheck/>}
+                { ctx.flash.isError && <FaTimes/>}
+                <p>{ ctx.flash.message }</p>
+            </div>
         </div>
     )
 };

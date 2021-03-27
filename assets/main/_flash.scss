@@ -9,6 +9,19 @@
     background: white;
     box-shadow: 0 0 10px 1px rgba(0, 0, 0, .1);
     transform: translateX(300px);
+    &__content{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        box-sizing: border-box;
+        svg{
+            font-size: 24px;
+        }
+        p{
+            font-size: 14px;
+        }
+    }
     &-colorBar{
         height: 8px;
     }
@@ -16,10 +29,16 @@
         .flash-colorBar{
             background: crimson;
         }
+        svg{
+            color: crimson;
+        }
     }
     &--success{
         .flash-colorBar{
             background: yellowgreen;
+        }
+        svg{
+            color: yellowgreen;
         }
     }
     &--active{

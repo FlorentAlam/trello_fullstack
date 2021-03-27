@@ -3,6 +3,7 @@ import { ChangeEvent, FunctionComponent, useContext, useState } from "react"
 import { FaTimes } from "react-icons/fa";
 import { MainContext } from "../../pages/_app";
 import { CREATE_CHECKLIST } from "../../utils/api_endpoints";
+import AddElementPopup from "./AddElementPopup";
 import { IChecklist } from "./Checklist";
 
 
@@ -34,16 +35,13 @@ const AddChecklist: FunctionComponent<IAddChecklistProps> = ({ carte_id, onAdd, 
     }
 
     return (
-        <div className="add-checklist">
-            <FaTimes className="add-checklist__close" role="button" onClick={ onClose }/>
-            <h2>Ajouter une checklist</h2>
-            <hr/>
+        <AddElementPopup name="Ajouter une checklist" className="add-checklist" onClose={onClose}>
             <div className="add-checklist__input-field">
                 <label htmlFor="titre">Titre</label>
                 <input type="text" name="titre" id="titre" value={titre} onChange={(event:ChangeEvent<HTMLInputElement>) => { setTitre(event.target.value) }}/>
             </div>
             <button onClick={onAddChecklist}>Ajouter</button>
-        </div>
+        </AddElementPopup>
     )
 }
 

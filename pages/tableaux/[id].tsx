@@ -5,10 +5,11 @@ import AddItem from "../../components/AddItem";
 import Liste from "../../components/Liste";
 import { CREATE_LISTE_URL, GET_LISTES_URL } from "../../utils/api_endpoints";
 
-interface IListe{
+export interface IListe{
     tableau_id: number,
     name: string,
-    id?: number
+    id?: number,
+    ordre: number
 }
 
 const Tableau = () => {
@@ -30,23 +31,26 @@ const Tableau = () => {
     }
 
     const onAddListe = async (listeName: string) => {
-        const result = await apiAddListe(listeName);
-        if(result){
-            const newListe = [...listes];
-            newListe.push({id: result[0], name: listeName});
-            setListes(newListe);
+        const newListe = await apiAddListe(listeName);
+        if(newListe){
+            const newListeArr = [...listes];
+            newListeArr.push({...newListe});
+            setListes(newListeArr);
         }
     }
 
     const apiAddListe = async(listeName: string) => {
-        const tableau_id = router.query.id; 
+        const tableau_id = router.query.id as string; 
+        const newListe: IListe = {
+            name: listeName,
+            tableau_id: parseInt(tableau_id),
+            ordre: listes.length
+        }
         try{
-            const result = await axios.post(CREATE_LISTE_URL, {
-                name: listeName,
-                tableau_id
-            }, { withCredentials: true });
+            const result = await axios.post(CREATE_LISTE_URL, {...newListe}, { withCredentials: true });
             if(result.status === 400) throw new Error('Erreur lors de la création de la liste.');
-            return result.data;
+            newListe.id = result.data[0];
+            return newListe;
         } catch(e){
             return false;
         }
@@ -54,8 +58,8 @@ const Tableau = () => {
 
     return (
         <div id="page" className="tableau">
-            { listes.map((liste, index) => (
-                <Liste key={liste.id} liste_id={liste.id} listeName={liste.name} />
+            { listes.map(liste => (
+                <Liste key={liste.id} liste={liste}/>
             ))}
             <AddItem onSubmit={onAddListe} buttonName="Ajouter une liste" placeholder="Nom de la liste"/>
         </div>

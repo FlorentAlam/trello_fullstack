@@ -8,7 +8,7 @@ const Carte = ({carte, onDeleteEtiquette, onUpdateChecklist, onAddItem}) => {
             { !!carte.etiquettes.length && (
                 <div className="carte__etiquettes">
                     { carte.etiquettes.map((etiquette, index) => (
-                        <div className="carte__etiquette" style={{ backgroundColor: etiquette.color }}></div>
+                        <div className="carte__etiquette" key={index} style={{ backgroundColor: etiquette.color }}></div>
                     ))}
                 </div>
             )}

@@ -37,7 +37,7 @@ const Checklist: FunctionComponent<IChecklistProps> = ({ checklistItems, onUpdat
             <div>
                 { checklistItems.map((item, index) => (
                     <div key={index}>
-                        <input type="checkbox" checked={item.isChecked} name={item.name} id={item.name} onClick={() => onToggleChecklist(item)}/>
+                        <input type="checkbox" checked={item.isChecked} name={item.name} id={item.name} onChange={() => onToggleChecklist(item)}/>
                         <label htmlFor={item.name}>{item.name}</label>
                     </div>
                 ))}

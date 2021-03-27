@@ -1,5 +1,6 @@
 import axios from "axios";
 import { FunctionComponent, useEffect, useState } from "react";
+import { IListe } from "../pages/tableaux/[id]";
 import { CREATE_CARTE_URL, GET_CARTES_URL } from "../utils/api_endpoints";
 import AddItem from "./AddItem";
 import Carte from "./Carte";
@@ -13,20 +14,25 @@ interface ICarte{
 }
 
 interface IListeProps{
-    listeName: string,
-    liste_id: number
+    liste: IListe
 }
 
-const Liste: FunctionComponent<IListeProps> = ({ listeName, liste_id }) => {
+const Liste: FunctionComponent<IListeProps> = ({ liste }) => {
 
     const [cartes, setCartes] = useState([]);
-
+    const [ listMovement, setListMovement ] = useState({
+        selectedListe: null,
+        movement: {
+            x: 0,
+            y: 0
+        }
+    })
     useEffect(() => {
         fetchCartes();
     }, [])
 
     const fetchCartes = async () => {
-        const response = await axios.get(GET_CARTES_URL(liste_id), { withCredentials: true});
+        const response = await axios.get(GET_CARTES_URL(liste.id), { withCredentials: true});
         const data: ICarte[] = response.data;
         setCartes(data);
     }
@@ -44,7 +50,7 @@ const Liste: FunctionComponent<IListeProps> = ({ listeName, liste_id }) => {
         try{
             const result = await axios.post(CREATE_CARTE_URL, {
                 name: carteName,
-                liste_id
+                liste_id: liste.id
             }, { withCredentials: true });
             if(result.status === 400) throw new Error('Erreur lors de la création de la carte.');
             return result.data;
@@ -96,8 +102,8 @@ const Liste: FunctionComponent<IListeProps> = ({ listeName, liste_id }) => {
     }
 
     return (
-        <div className="liste">
-            <ListeTitle title={ listeName } liste_id={ liste_id }/>
+        <div className="liste"  style={{zIndex: (liste.id === listMovement.selectedListe ? 4 : 1) , transform: (liste.id === listMovement.selectedListe ? `translateX(${listMovement.movement.x}px) translateY(${listMovement.movement.y}px)` : '')}}>
+            <ListeTitle liste={liste} onMove={(data) => setListMovement({...data})}/>
             {cartes.map((carte) => (
                 <Carte key={carte.id} carte={carte} onUpdateChecklist={onUpdateChecklist} onDeleteEtiquette={onDeleteEtiquette} onAddItem={onAddItem}/>
             ))}
